@@ -33,7 +33,6 @@ public class Model implements Serializable {
     private String name;
 
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "mar_id", nullable = false)
     private Mark mark;
@@ -41,5 +40,9 @@ public class Model implements Serializable {
     public Model(String name, Mark mark) {
         this.name = name;
         this.mark = mark;
+    }
+    @JsonBackReference
+    public Mark getMark() {
+        return mark;
     }
 }

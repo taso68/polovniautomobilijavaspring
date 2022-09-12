@@ -27,10 +27,13 @@ public class Mark implements Serializable {
     private String name;
 
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "mark")
     private List<Model> models;
 
-
+    @JsonManagedReference
+    public List<Model> getModels() {
+        return models;
+    }
 
 }
+
