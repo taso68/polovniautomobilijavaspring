@@ -1,8 +1,11 @@
 package com.taso.polovniautomobili.ads;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.taso.polovniautomobili.body.Body;
 import com.taso.polovniautomobili.city.entity.City;
+import com.taso.polovniautomobili.files.File;
+import com.taso.polovniautomobili.fuel.Fuel;
 import com.taso.polovniautomobili.model.entity.Model;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "ads")
 @Table(name = "ads")
 @Accessors(chain = true)
 public class Ads implements Serializable {
@@ -40,6 +43,7 @@ public class Ads implements Serializable {
     @JoinColumn(name = "cit_id", nullable = false)
     private City city;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="dd-MM-yyyy")
     @Column(name = "ads_created")
     private Date created;
@@ -70,7 +74,12 @@ public class Ads implements Serializable {
     @Column(name = "ads_description")
     private String description;
 
-    @Transient
-    private List<Ads> photoUrls;
+    @ManyToOne
+    @JoinColumn(name = "fue_id")
+    private Fuel fuel;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id")
+    private List<File> files;
 
 }

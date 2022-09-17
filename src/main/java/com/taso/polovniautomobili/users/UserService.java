@@ -27,15 +27,7 @@ public class UserService {
         if (byId.isEmpty())
             throw new NotFoundException("User with id: " + userId + " not found");
         User u = byId.get();
-        loadImageUrls(u);
         return u;
     }
-    public void loadImageUrls(User user){
-        System.out.println("Creating urls....");
-        List<String> urls = new ArrayList<>();
-        user.getPhotos().forEach(file ->
-                        urls.add(fileService.getImageUrlByFile(file))
-        );
-        user.setUserPhotos(urls);
-    }
+
 }

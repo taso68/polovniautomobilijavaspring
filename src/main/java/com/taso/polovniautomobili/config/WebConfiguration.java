@@ -1,4 +1,4 @@
-package com.taso.polovniautomobili.webconfig;
+package com.taso.polovniautomobili.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

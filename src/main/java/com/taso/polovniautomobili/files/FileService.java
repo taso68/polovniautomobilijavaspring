@@ -5,17 +5,23 @@ import com.taso.polovniautomobili.exceptions.custom.NotFoundException;
 import com.taso.polovniautomobili.users.User;
 import com.taso.polovniautomobili.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FileService {
     private final FileRepository fileRepository;
     private final UserService userService;
+
+    @Value("${server.port}")
+    private int serverPort;
 
     @Autowired
     public FileService(FileRepository fileRepository,@Lazy UserService userService) {
@@ -58,8 +64,14 @@ public class FileService {
         return "http://localhost:8082/files/"+String.valueOf(byId.get().getId());
 
     }
-    public String getImageUrlByFile(File file){
-        return "http://localhost:8082/files/"+String.valueOf(file.getId());
+
+    public List<String> urlsForAds(Long id){
+        List<Long> ids = fileRepository.findAllIdsAds(id);
+        List<String> urls = new ArrayList<>();
+        for(int i = 0; i < ids.size(); i++){
+            urls.add("http://localhost:"+serverPort+"/files/" + String.valueOf(id));
+        }
+        return urls;
     }
 
 }

@@ -1,26 +1,28 @@
 package com.taso.polovniautomobili.ads;
 
+import com.taso.polovniautomobili.exceptions.custom.NotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/ads")
 @RestController
 public class AdsController {
 
-    private final AdsService adsService;
     @Autowired
-    public AdsController(AdsService adsService) {
-        this.adsService = adsService;
-    }
+    private ModelMapper modelMapper;
+    @Autowired
+    private AdsService adsService;
 
 
-    @GetMapping
-    public ResponseEntity<List<Ads>> allAds(){
-        return ResponseEntity.ok(adsService.allAds());
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<AdsDto> singleAd(@PathVariable Long id) throws NotFoundException {
+        return ResponseEntity.ok(adsService.singleAd(id));
     }
+
 }
